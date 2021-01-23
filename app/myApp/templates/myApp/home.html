@@ -9,7 +9,13 @@
               <a class="mr-2" href="#">{{ post.author }}</a>
               <small class="text-muted">{{ post.date_posted|date:"F d,Y"}}</small>
             </div>
-            <p class="article-content">{{ post.desc }}</p>
+            <p class="article-content"><a href="{% url 'post-detail' post.id %}">{{ post.desc }} </a></p>
+               {% if post.file_field %}
+<!--                 <div class="embed-responsive embed-responsive-4by3">-->
+<!--                     <iframe class="embed-responsive-item" src="{{ post.file_field.url }}"></iframe>-->
+                     <img src="{{ post.file_field.url }}">
+<!--                 </div>-->
+              {% endif %}
           </div>
         </article>
     {% endfor %}
