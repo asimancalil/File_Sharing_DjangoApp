@@ -1,0 +1,17 @@
+{% extends "myApp/base.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Delete File</legend>
+                <h2>Are you sure you want to delete?</h2>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn-outline-danger" type="submit">Delete</button>
+                <a class="btn-outline-secondary"  href="{% url 'post-detail' object.id %}">Cancel</a>
+
+            </div>
+        </form>
+    </div>
+{% endblock content %}
