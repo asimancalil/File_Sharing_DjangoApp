@@ -1,9 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.http import HttpResponse
 from .models import Post
-from .forms import PostForm
+from django.contrib.auth.models import User
 
 
 def home(request):
@@ -14,10 +13,14 @@ def home(request):
 
 
 class PostListView(ListView):
-    model = Post
+    # model = Post
     template_name = 'myApp/home.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
+
+    def get_queryset(self):
+        author = self.request.user
+        return Post.objects.order_by().filter(author=author).order_by('-date_posted')
 
 
 class PostDetailView(DetailView):
@@ -31,6 +34,20 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+# def new_post(request):
+#     template = 'myApp/post_form.html'
+#     form = PostForm(request.POST or None)
+#
+#     if form.is_valid():
+#         form.save()
+#         return redirect('post-detail')
+#     else:
+#         form = PostForm()
+#     context = {
+#         'form': form,
+#     }
+#     return render(request, template, context)
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin,  UpdateView):
@@ -58,17 +75,3 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-#
-# def new_post(request):
-#     template = 'myApp/post_form.html'
-#     form = PostForm(request.POST or None)
-#
-#     if form.is_valid():
-#         form.save()
-#         return redirect('post-detail')
-#     else:
-#         form = PostForm()
-#     context = {
-#         'form': form,
-#     }
-#     return render(request, template, context)

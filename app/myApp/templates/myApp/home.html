@@ -8,6 +8,10 @@
             <div class="article-metadata">
               <a class="mr-2" href="#">{{ post.author }}</a>
               <small class="text-muted">{{ post.date_posted|date:"F d,Y"}}</small>
+                <div>
+                    <small class="text-muted">Expiration Date: {{ post.expired_date|date:"F d,Y" }}</small>
+                </div>
+
             </div>
             <p class="article-content"><a href="{% url 'post-detail' post.id %}">{{ post.desc }} </a></p>
                {% if post.file_field %}

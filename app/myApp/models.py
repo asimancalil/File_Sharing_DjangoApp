@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+import datetime
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
@@ -30,3 +31,8 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk':self.pk})
+
+    @property
+    def expired_date(self):
+        "Returns the expiration date of the File."
+        return self.date_posted + datetime.timedelta(days=7)
