@@ -25,6 +25,8 @@ class Post(models.Model):
     desc = models.TextField()
     file_field = models.FileField(upload_to=image_directory_path, storage=image_storage)
     date_posted = models.DateTimeField(default=timezone.now)
+    share = models.ManyToManyField(User, blank=True,
+                                   related_name="SharedUsers")
 
     def __str__(self):
         return f'{self.author}=> {self.desc}'
