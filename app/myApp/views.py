@@ -57,9 +57,6 @@ def file_share(request, pk):
     if request.user.is_authenticated and post.author == request.user:
         if form.is_valid():
             shared_user_id = request.POST.get('share')
-            print(shared_user_id)
-            #user = User.objects.filter(id=shared_user_id)
-            # shared_user_id = request.POST.get('share')
             post.share.add(shared_user_id)
 
     context = {
